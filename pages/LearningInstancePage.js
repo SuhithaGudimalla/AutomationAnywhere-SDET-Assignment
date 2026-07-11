@@ -1,63 +1,70 @@
 import { expect } from "@playwright/test";
 
 export default class LearningInstancePage {
-
     constructor(page) {
         this.page = page;
 
-        // TODO: Inspect AI menu — confirm Learning Instances navigation locator
-        this.learningInstancesLink = page.getByRole("link", { name: "Learning Instances" });
+        // Entire Learning Instance UI is inside an iframe
+        this.frame = page.locator("iframe").first().contentFrame();
 
-        // TODO: Inspect Learning Instances page — confirm Create button locator
-        this.createButton = page.getByRole("button", { name: "Create" });
+        // Verified iframe locators (from provided codegen)
+        this.createLearningInstanceButton =
+            this.frame.getByRole("button", {
+                name: "Create Learning Instance",
+            });
 
-        // TODO: Inspect create menu — confirm User Defined Learning Instance option locator
-        this.userDefinedOption = page.getByText("User Defined Learning Instance");
+        this.instanceNameInput = this.frame.getByRole("textbox", {
+            name: "Name",
+        });
 
-        // TODO: Inspect create dialog — confirm learning instance name field locator
-        this.instanceNameInput = page.getByLabel("Name");
+        this.nextButton = this.frame.getByRole("button", {
+            name: "Next",
+        });
 
-        // TODO: Inspect upload section — confirm file input locator for document upload
-        this.documentUploadInput = page.locator('input[type="file"]');
+        this.searchInput = this.frame.getByRole("textbox", {
+            name: "Search",
+        });
 
-        // TODO: Inspect form fields section — confirm Add Form Field button locator
-        this.addFormFieldButton = page.getByRole("button", { name: /add form field/i });
+        this.addFieldButton = this.frame
+            .locator("button")
+            .filter({ hasText: "Add a field" });
 
-        // TODO: Inspect table fields section — confirm Add Table Field button locator
-        this.addTableFieldButton = page.getByRole("button", { name: /add table field/i });
+        this.fieldNameInput = this.frame.getByRole("textbox", {
+            name: "Field name",
+        });
 
-        // TODO: Inspect rules section — confirm Add Rule button locator
-        this.addRuleButton = page.getByRole("button", { name: /add rule/i });
+        this.fieldLabelInput = this.frame.getByRole("textbox", {
+            name: "Field label",
+        });
 
-        // TODO: Inspect dialog footer — confirm Save button locator
-        this.saveButton = page.getByRole("button", { name: "Save" });
-
-        // TODO: Inspect post-save notification — confirm success message locator
-        this.successMessage = page.getByText(/created successfully|saved successfully|success/i);
+        this.successMessage = this.frame.getByText(
+            /success|created successfully|saved successfully/i
+        );
     }
 
-    async navigateToLearningInstances() {
-        await this.learningInstancesLink.click();
-    }
-
+    // Keep Page Object Model method names as used by tests
     async startUserDefinedLearningInstance() {
-        await this.createButton.click();
-        await this.userDefinedOption.click();
+        await this.createLearningInstanceButton.click();
     }
 
     async enterInstanceName(name) {
         await this.instanceNameInput.fill(name);
+        await this.nextButton.click();
     }
 
     async uploadDocument(filePath) {
-        await this.documentUploadInput.setInputFiles(filePath);
+        // TODO: iframe locator for document upload not provided in verified codegen.
+        throw new Error(
+            "TODO: uploadDocument locator not verified for this UI"
+        );
     }
 
     async addFormField(fieldName) {
-        await this.addFormFieldButton.click();
-        // TODO: Inspect form field dialog — confirm field name input locator
-        await this.page.getByLabel("Field name").fill(fieldName);
-        await this.page.getByRole("button", { name: "Add" }).click();
+        await this.searchInput.click();
+        await this.addFieldButton.click();
+
+        await this.fieldNameInput.fill(fieldName);
+        await this.fieldLabelInput.fill(fieldName);
     }
 
     async addFormFields(fieldNames) {
@@ -67,10 +74,10 @@ export default class LearningInstancePage {
     }
 
     async addTableField(fieldName) {
-        await this.addTableFieldButton.click();
-        // TODO: Inspect table field dialog — confirm field name input locator
-        await this.page.getByLabel("Field name").fill(fieldName);
-        await this.page.getByRole("button", { name: "Add" }).click();
+        // TODO: table field flow not provided in verified codegen.
+        throw new Error(
+            "TODO: addTableField locator not verified for this UI"
+        );
     }
 
     async addTableFields(fieldNames) {
@@ -80,20 +87,19 @@ export default class LearningInstancePage {
     }
 
     async createFieldRule({ field, condition, action }) {
-        await this.addRuleButton.click();
-        // TODO: Inspect rule builder — confirm field, condition, and action locators
-        await this.page.getByLabel("Field").selectOption({ label: field });
-        await this.page.getByLabel("Condition").selectOption({ label: condition });
-        await this.page.getByLabel("Action").fill(action);
-        await this.page.getByRole("button", { name: "Add" }).click();
+        // TODO: rule builder locators not provided in verified codegen.
+        throw new Error(
+            "TODO: createFieldRule locator not verified for this UI"
+        );
     }
 
     async save() {
-        await this.saveButton.click();
+        // TODO: save button locator not provided in verified codegen.
+        throw new Error("TODO: save locator not verified for this UI");
     }
 
     async verifySaveSuccess() {
         await expect(this.successMessage).toBeVisible();
     }
-
 }
+
