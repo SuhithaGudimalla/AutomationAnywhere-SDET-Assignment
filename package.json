@@ -1,13 +1,25 @@
 {
   "name": "automationanywhere-sdet-assignment",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {},
-  "keywords": [],
+  "description": "Automation Anywhere SDET Internship Assignment — Playwright + POM",
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:setup": "playwright test --project=setup",
+    "test:login": "playwright test tests/login.spec.js",
+    "test:taskbot": "playwright test tests/taskBot.spec.js",
+    "test:learning": "playwright test tests/learningInstance.spec.js",
+    "report": "playwright show-report",
+    "inspect:locators": "node utils/inspectLocators.js"
+  },
+  "keywords": [
+    "playwright",
+    "automation-anywhere",
+    "sdet",
+    "page-object-model"
+  ],
   "author": "",
   "license": "ISC",
-  "type": "module",
   "devDependencies": {
     "@playwright/test": "^1.61.1",
     "@types/node": "^26.1.1"

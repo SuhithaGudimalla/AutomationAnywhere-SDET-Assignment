@@ -1,12 +1,19 @@
-const { test, expect } = require('@playwright/test');
-const LoginPage = require('../pages/LoginPage');
+import { test } from "@playwright/test";
 
-test('Open Automation Anywhere Home', async ({ page }) => {
+import LoginPage from "../pages/LoginPage.js";
+import DashboardPage from "../pages/DashboardPage.js";
 
-    const login = new LoginPage(page);
+test.describe("Login & Dashboard", () => {
 
-    await login.gotoHome();
+    test("should load dashboard using saved authentication state", async ({ page }) => {
 
-    await expect(page).toHaveURL(/automationanywhere/);
+        const loginPage = new LoginPage(page);
+        const dashboardPage = new DashboardPage(page);
+
+        await loginPage.navigate();
+
+        await dashboardPage.verifyDashboardLoaded();
+
+    });
 
 });

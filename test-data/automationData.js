@@ -1,16 +1,19 @@
-module.exports = {
-    taskBotName: "Playwright Task Bot",
-    taskDescription: "Created using Playwright Automation",
+export const automationData = {
+    taskBot: {
+        namePrefix: "Playwright-TaskBot",
+        searchCommand: "message",
+        messageDisplay: "Playwright automated test message",
+    },
 
-    learningInstanceName: "Invoice Learning Instance",
-
-    formFields: [
-        "Invoice Number",
-        "Invoice Date"
-    ],
-
-    tableFields: [
-        "Unit Price",
-        "Quantity"
-    ]
+    learningInstance: {
+        namePrefix: "Playwright-LearningInstance",
+        documentFile: "alias-case-1.pdf",
+        formFields: ["Invoice Number", "Invoice Date"],
+        tableFields: ["Unit Price", "Quantity"],
+        rule: {
+            field: "Invoice Number",
+            condition: "is empty",
+            action: "Invalid value entered",
+        },
+    },
 };
