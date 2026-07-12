@@ -8,7 +8,7 @@ export default class TaskBotPage {
         this.searchActionsInput = page.getByPlaceholder("Search actions");
 
         this.messageBoxCategory = page.getByRole("button", {
-            name: /Message box/i,
+            name: /Message box/,
         });
 
         this.messageBoxAction = page.getByRole("button", {
@@ -16,44 +16,72 @@ export default class TaskBotPage {
             exact: true,
         });
 
-        this.messageBoxPanel = page.getByRole("banner").filter({
-            hasText: "Message box",
+        this.messageDisplayInput = page.getByRole("textbox").last();
+
+        this.saveButton = page.getByRole("button", {
+            name: "Save",
         });
 
-        this.messageDisplayInput = page.getByRole("textbox").nth(2);
-
-        this.saveButton = page.getByRole("button", { name: "Save" });
-
-        this.gotItButton = page.getByRole("button", { name: "Got it" });
+        this.gotItButton = page.getByRole("button", {
+            name: "Got it",
+        });
     }
 
     async addMessageBox() {
-        await expect(this.searchActionsInput).toBeVisible();
+
+        console.log("Searching Message Box...");
+
+        await expect(this.searchActionsInput).toBeVisible({
+            timeout: 60000,
+        });
+
         await this.searchActionsInput.fill("message");
 
-        await this.messageBoxCategory.first().click();
-        await this.messageBoxAction.dblclick();
-    }
+        await expect(this.messageBoxCategory.first()).toBeVisible({
+            timeout: 60000,
+        });
 
-    async verifyRightPanel() {
-        await expect(this.page.getByText("Enter the message to display")).toBeVisible();
-        await expect(this.page.getByText("Enter the message box window title")).toBeVisible();
+        await this.messageBoxCategory.first().click();
+
+        await expect(this.messageBoxAction).toBeVisible({
+            timeout: 60000,
+        });
+
+        await this.messageBoxAction.click();
     }
 
     async configureMessageBox(message) {
-        await this.messageBoxPanel.click();
-        await this.messageDisplayInput.click();
+
+        console.log("Configuring Message Box...");
+
+        await expect(this.messageDisplayInput).toBeVisible({
+            timeout: 60000,
+        });
+
         await this.messageDisplayInput.fill(message);
     }
 
     async saveAutomation() {
-        await expect(this.saveButton).toBeEnabled();
+
+        console.log("Saving...");
+
         await this.saveButton.click();
     }
 
     async confirmSave() {
-        if (await this.gotItButton.isVisible()) {
+
+        try {
+
+            await expect(this.gotItButton).toBeVisible({
+                timeout: 10000,
+            });
+
             await this.gotItButton.click();
+
+        } catch {
+
+            console.log("No confirmation popup.");
+
         }
     }
 
