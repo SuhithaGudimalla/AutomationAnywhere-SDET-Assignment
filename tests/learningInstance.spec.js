@@ -39,7 +39,11 @@ test.describe("Use Case 2 — User Defined Learning Instance", () => {
         );
 
         await learningInstancePage.createFieldRule(
-            automationData.learningInstance.rule
+            {
+    fieldName: "invoice_number",
+    value: "100",
+    message: "Invalid value entered"
+}
         );
 
         await learningInstancePage.save();
