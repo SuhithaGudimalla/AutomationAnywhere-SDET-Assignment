@@ -1,89 +1,158 @@
-# Automation Anywhere SDET Internship Assignment
+# Playwright UI Automation Framework
 
-Playwright test automation framework for **Automation Anywhere Community Edition**, built with JavaScript (ES Modules) and the Page Object Model.
+A scalable UI automation framework built using **Playwright**, **JavaScript (ES Modules)**, and the **Page Object Model (POM)**. This project demonstrates end-to-end automation of a web application, including authentication, workflow automation, file upload, form handling, rule creation, and reporting.
+
+---
+
+## Test Execution Report
+
+> All automated test cases executed successfully.
+
+<img width="1483" height="813" alt="image" src="https://github.com/user-attachments/assets/54415aeb-282e-4c21-a6c8-027f8ce9c4c7" />
+
+
+---
+
+## Features
+
+- Playwright with JavaScript (ES Modules)
+- Page Object Model (POM)
+- Reusable page classes and helper utilities
+- Manual authentication with saved browser session
+- Automated workflow execution
+- File upload automation
+- Dynamic test data
+- HTML Reporting
+- Screenshots, Videos and Traces on failure
+- Maintainable and scalable project structure
+
+---
+
+## Tech Stack
+
+- Playwright
+- JavaScript (ES Modules)
+- Node.js
+- HTML Reporter
+
+---
 
 ## Project Structure
 
-```
-AutomationAnywhere-SDET-Assignment
+```text
+playwright-ui-automation
 ├── pages/
 │   ├── LoginPage.js
 │   ├── DashboardPage.js
 │   ├── AutomationPage.js
 │   ├── TaskBotPage.js
 │   └── LearningInstancePage.js
+│
 ├── tests/
 │   ├── auth.setup.js
 │   ├── login.spec.js
 │   ├── taskBot.spec.js
 │   └── learningInstance.spec.js
+│
 ├── utils/
 │   ├── auth.js
 │   ├── constants.js
 │   └── helper.js
+│
 ├── test-data/
 │   ├── automationData.js
-│   └── alias-case-1.pdf          ← place your test PDF here
+│   └── alias-case-1.pdf
+│
 ├── playwright.config.js
 ├── package.json
-└── .env
+├── .env.example
+└── README.md
 ```
+
+---
 
 ## Prerequisites
 
 - Node.js 18+
-- Automation Anywhere Community Edition account
+- npm
+- Playwright
 
-## Setup
-
-1. Install dependencies:
+Install Playwright browsers:
 
 ```bash
-npm install
 npx playwright install
 ```
 
-2. Configure environment variables in `.env`:
+---
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/your-username/playwright-ui-automation.git
+```
+
+Move into the project:
+
+```bash
+cd playwright-ui-automation
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Install Playwright browsers:
+
+```bash
+npx playwright install
+```
+
+---
+
+## Environment Variables
+
+Create a `.env` file using `.env.example` as a template.
+
+Example:
 
 ```env
-BASE_URL=https://community.cloud.automationanywhere.digital
+BASE_URL=https://your-application-url
+
 EMAIL=your_email@example.com
+
 PASSWORD=your_password
 ```
 
-3. Place `alias-case-1.pdf` in the `test-data/` folder (required for Use Case 2).
+---
 
-## Authentication (One-Time Manual Login)
+## Authentication
 
-Automation Anywhere uses CAPTCHA. **Do not automate CAPTCHA.**
+The application requires CAPTCHA during login.
 
-Run the setup project once to log in manually and save session state:
+Instead of automating CAPTCHA, the framework performs a one-time manual login and stores the authenticated browser session for reuse.
+
+Run:
 
 ```bash
 npm run test:setup
 ```
 
-What happens:
+Workflow:
 
-1. A headed browser opens at the login page.
-2. You enter credentials and solve CAPTCHA manually.
-3. The setup waits until the URL **no longer contains `/login`**.
-4. Session is saved to `playwright/.auth/user.json`.
+1. Browser opens.
+2. Enter credentials.
+3. Complete CAPTCHA manually.
+4. Login successfully.
+5. Authentication state is saved.
+6. Remaining test cases reuse the saved session automatically.
 
-All other tests reuse this `storageState` automatically.
-
-Re-run setup only when the session expires.
+---
 
 ## Running Tests
-
-| Command | Description |
-|---------|-------------|
-| `npm run test:setup` | One-time manual login + save auth state |
-| `npm run test:login` | Verify dashboard loads with saved auth |
-| `npm run test:taskbot` | Use Case 1 — Task Bot + Message Box |
-| `npm run test:learning` | Use Case 2 — Learning Instance |
-| `npm test` | Run all tests (except setup) |
-| `npm run report` | Open HTML report |
 
 Run all tests:
 
@@ -91,52 +160,97 @@ Run all tests:
 npm test
 ```
 
-## Test Coverage
+Individual commands:
 
-### Use Case 1 — Task Bot
+| Command | Description |
+|----------|-------------|
+| `npm run test:setup` | Save authentication session |
+| `npm run test:login` | Login validation |
+| `npm run test:taskbot` | Execute Use Case 1 |
+| `npm run test:learning` | Execute Use Case 2 |
+| `npm run report` | Open HTML Report |
 
-1. Login (via `storageState`)
-2. Navigate to Automation → Create → Task Bot
-3. Enter bot name → Create & Edit
-4. Search "Message Box" → double-click to add
-5. Verify right panel is visible
-6. Save → verify success message
+---
 
-### Use Case 2 — Learning Instance
+## Automated Test Scenarios
 
-1. Navigate to AI → Learning Instances
-2. Create User Defined Learning Instance
-3. Upload `alias-case-1.pdf`
-4. Add 2 Form Fields and 2 Table Fields
-5. Create one Field Rule
-6. Save → verify success
+### Login Validation
 
-## Locator Strategy
+- Load saved authentication state
+- Verify successful login
+- Verify dashboard is accessible
 
-- Prefer `getByRole()`, `getByLabel()`, and `getByPlaceholder()` over XPath.
-- All locators live inside Page Objects only.
-- Spec files contain business flow only — no raw selectors.
-- Locators marked with `TODO` comments require inspection against the live application.
+### Workflow 1
 
-## Reporting & Artifacts
+- Navigate through the application
+- Create a new workflow
+- Add required automation step
+- Save successfully
 
-Configured in `playwright.config.js`:
+### Workflow 2
 
-- **HTML report** — `playwright-report/`
-- **Screenshots** — on failure
-- **Video** — retained on failure
-- **Trace** — on first retry
+- Create a learning instance
+- Upload document
+- Configure form fields
+- Configure table fields
+- Create validation rule
+- Save successfully
 
-View the HTML report:
+---
+
+## Reporting
+
+The framework automatically generates:
+
+- HTML Report
+- Screenshots on Failure
+- Videos on Failure
+- Playwright Trace on Retry
+
+Open the report using:
 
 ```bash
 npm run report
 ```
 
-## Design Principles
+---
 
-- Page Object Model with reusable methods
-- Playwright auto-waiting (no hardcoded sleeps)
-- Unique test data via timestamped names
-- Centralized constants and auth utilities
-- Interview-quality, maintainable structure
+## Execution Result
+
+| Result | Status |
+|---------|--------|
+| Total Tests | 4 |
+| Passed | ✅ 4 |
+| Failed | ✅ 0 |
+| Execution Time | ~2.4 Minutes |
+
+---
+
+## Framework Design
+
+- Page Object Model (POM)
+- Modular page classes
+- Centralized locators
+- Reusable helper methods
+- Environment-based configuration
+- Automatic waiting using Playwright
+- Timestamp-based unique test data
+- Clean separation between page logic and test logic
+
+---
+
+## Future Improvements
+
+- Cross-browser execution
+- Parallel test execution
+- CI/CD integration using GitHub Actions
+- Allure Reporting
+- Docker support
+
+---
+
+## Author
+
+**Suhitha Gudimalla**
+
+GitHub: https://github.com/SuhithaGudimalla
