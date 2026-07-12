@@ -96,6 +96,7 @@ git clone https://github.com/your-username/playwright-ui-automation.git
 Move into the project:
 
 ```bash
+
 cd playwright-ui-automation
 ```
 
@@ -176,26 +177,23 @@ Individual commands:
 
 ### Login Validation
 
-- Load saved authentication state
-- Verify successful login
-- Verify dashboard is accessible
+- Verify dashboard loads using saved authentication state.
 
-### Workflow 1
+### Use Case 1 – Task Bot
 
-- Navigate through the application
-- Create a new workflow
-- Add required automation step
-- Save successfully
+- Create a Task Bot
+- Add Message Box action
+- Save the Task Bot
+- Verify successful creation
 
-### Workflow 2
+### Use Case 2 – User Defined Learning Instance
 
-- Create a learning instance
-- Upload document
+- Create a Learning Instance
+- Upload sample document
 - Configure form fields
 - Configure table fields
 - Create validation rule
-- Save successfully
-
+- Save and verify successful creation
 ---
 
 ## Reporting
@@ -254,3 +252,4 @@ npm run report
 **Suhitha Gudimalla**
 
 GitHub: https://github.com/SuhithaGudimalla
+LinkedIn: https://www.linkedin.com/in/suhitha-gudimalla/
