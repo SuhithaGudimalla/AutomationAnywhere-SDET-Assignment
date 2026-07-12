@@ -9,14 +9,13 @@ export default class DashboardPage {
             exact: true,
         });
 
-        this.aiMenu = page.getByRole("link", {
+        this.aiMenu = page.getByRole("button", {
             name: "AI",
             exact: true,
         });
 
         this.documentAutomationMenu = page.getByRole("link", {
             name: "Document Automation",
-            description: "Document Automation",
         });
 
         this.createButton = page
@@ -37,10 +36,12 @@ export default class DashboardPage {
     }
 
     async openAI() {
+        await expect(this.aiMenu).toBeVisible();
         await this.aiMenu.click();
     }
 
     async openDocumentAutomation() {
+        await expect(this.documentAutomationMenu).toBeVisible();
         await this.documentAutomationMenu.click();
     }
 }

@@ -1,19 +1,24 @@
 export const automationData = {
     taskBot: {
         namePrefix: "Playwright-TaskBot",
-        searchCommand: "message",
         messageDisplay: "Playwright automated test message",
     },
 
     learningInstance: {
         namePrefix: "Playwright-LearningInstance",
         documentFile: "alias-case-1.pdf",
-        formFields: ["Invoice Number", "Invoice Date"],
-        tableFields: ["Unit Price", "Quantity"],
+        formFields: [
+            { name: "invoice_number", label: "Invoice Number" },
+            { name: "invoice_date", label: "Invoice Date", type: "Date" },
+        ],
+        tableFields: [
+            { name: "quantity", label: "Quantity", type: "Number" },
+            { name: "unit_price", label: "Unit Price", type: "Number" },
+        ],
         rule: {
-            field: "Invoice Number",
-            condition: "is empty",
-            action: "Invalid value entered",
+            fieldName: "invoice_number",
+            value: "100",
+            message: "Invalid value entered",
         },
     },
 };

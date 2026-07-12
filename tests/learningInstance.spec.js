@@ -4,12 +4,10 @@ import DashboardPage from "../pages/DashboardPage.js";
 import LearningInstancePage from "../pages/LearningInstancePage.js";
 import LoginPage from "../pages/LoginPage.js";
 import { automationData } from "../test-data/automationData.js";
-import {
-    generateUniqueName,
-    resolveTestDataFile,
-} from "../utils/helper.js";
+import { generateUniqueName, resolveTestDataFile } from "../utils/helper.js";
 
 test.describe("Use Case 2 — User Defined Learning Instance", () => {
+
     test("should create a learning instance with fields, rule, and document", async ({ page }) => {
         const loginPage = new LoginPage(page);
         const dashboardPage = new DashboardPage(page);
@@ -29,8 +27,7 @@ test.describe("Use Case 2 — User Defined Learning Instance", () => {
         await dashboardPage.openAI();
         await dashboardPage.openDocumentAutomation();
 
-        await learningInstancePage.startUserDefinedLearningInstance();
-        await learningInstancePage.enterInstanceName(instanceName);
+        await learningInstancePage.startUserDefinedLearningInstance(instanceName);
         await learningInstancePage.uploadDocument(documentPath);
 
         await learningInstancePage.addFormFields(
@@ -46,7 +43,7 @@ test.describe("Use Case 2 — User Defined Learning Instance", () => {
         );
 
         await learningInstancePage.save();
-        await learningInstancePage.verifySaveSuccess();
+        await learningInstancePage.verifySaveSuccess(instanceName);
     });
-});
 
+});

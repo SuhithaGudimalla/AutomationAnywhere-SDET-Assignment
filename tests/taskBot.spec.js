@@ -24,6 +24,7 @@ test.describe("Use Case 1 - Task Bot", () => {
         await automationPage.createTaskBot(botName);
 
         await taskBotPage.addMessageBox();
+        await taskBotPage.verifyRightPanel();
         await taskBotPage.configureMessageBox(automationData.taskBot.messageDisplay);
         await taskBotPage.saveAutomation();
         await taskBotPage.confirmSave();

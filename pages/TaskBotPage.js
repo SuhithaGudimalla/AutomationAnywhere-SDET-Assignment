@@ -7,43 +7,47 @@ export default class TaskBotPage {
 
         this.searchActionsInput = page.getByPlaceholder("Search actions");
 
-        this.messageBoxButton = page.getByRole("button", {
+        this.messageBoxCategory = page.getByRole("button", {
             name: /Message box/i,
         });
 
-        // More resilient locator: find the textbox relative to the label text container
-        this.messageDisplayInput = page
-            .locator('label:has-text("Enter the message to display"), div:has-text("Enter the message to display"), span:has-text("Enter the message to display")')
-            .locator('xpath=following::input[@type="text" or @role="textbox" or @name] | xpath=descendant::input[@type="text" or @role="textbox" or @name] | xpath=descendant::textarea | xpath=descendant::*[@role="textbox"]')
-            .first();
-
-
-        this.saveButton = page.getByRole("button", {
-            name: "Save",
+        this.messageBoxAction = page.getByRole("button", {
+            name: "Message box",
+            exact: true,
         });
 
-        this.gotItButton = page.getByRole("button", {
-            name: "Got it",
+        this.messageBoxPanel = page.getByRole("banner").filter({
+            hasText: "Message box",
         });
+
+        this.messageDisplayInput = page.getByRole("textbox").nth(2);
+
+        this.saveButton = page.getByRole("button", { name: "Save" });
+
+        this.gotItButton = page.getByRole("button", { name: "Got it" });
     }
 
     async addMessageBox() {
         await expect(this.searchActionsInput).toBeVisible();
-
         await this.searchActionsInput.fill("message");
 
-        await expect(this.messageBoxButton.first()).toBeVisible();
+        await this.messageBoxCategory.first().click();
+        await this.messageBoxAction.dblclick();
+    }
 
-        await this.messageBoxButton.first().click();
+    async verifyRightPanel() {
+        await expect(this.page.getByText("Enter the message to display")).toBeVisible();
+        await expect(this.page.getByText("Enter the message box window title")).toBeVisible();
     }
 
     async configureMessageBox(message) {
-        await expect(this.messageDisplayInput).toBeVisible({ timeout: 120000 });
+        await this.messageBoxPanel.click();
+        await this.messageDisplayInput.click();
         await this.messageDisplayInput.fill(message);
     }
 
-
     async saveAutomation() {
+        await expect(this.saveButton).toBeEnabled();
         await this.saveButton.click();
     }
 
@@ -52,4 +56,5 @@ export default class TaskBotPage {
             await this.gotItButton.click();
         }
     }
+
 }
